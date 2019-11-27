@@ -1,0 +1,258 @@
+<html>
+<head>
+<style>
+.left_block {
+	display: inline-block;
+	background-color: #f0f0f0;
+	padding: 10px;
+	margin: 10px;
+	float: left;
+}
+.center_block {
+	display: inline-block;
+	background-color: #f0f0f0;
+	padding: 10px;
+	margin: 10px;
+	float: left;
+}
+.right_block {
+	display: inline-block;
+	background-color: #f0f0f0;
+	padding: 10px;
+	margin: 10px;
+	float: left;
+}
+.left_block img {
+	border-style: solid;
+	border-width: 5;
+	border-color: #00000000;
+}
+.center_block img {
+	border-style: solid;
+	border-width: 5;
+	border-color: #00000000;
+}
+.right_block img {
+	border-style: solid;
+	border-width: 5;
+	border-color: #00000000;
+}
+</style>
+<script language="JavaScript">
+var queue=[];
+var icon_from=Array(18);
+var icon_k_from=Array(18);
+var icon_to=Array(18);
+var icon_k_to=Array(18);
+var btns=Array(18);
+var aisho=
+[//  ノーほのみずでんくさこおかくどくじめひこエスむしいわゴードラあくはがフェ
+	[1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.5,0.0,1.0,1.0,0.5,1.0], //ノー
+	[1.0,0.5,0.5,1.0,2.0,2.0,1.0,1.0,1.0,1.0,1.0,2.0,0.5,1.0,0.5,1.0,2.0,1.0], //ほの
+	[1.0,2.0,0.5,1.0,0.5,1.0,1.0,1.0,2.0,1.0,1.0,1.0,2.0,1.0,0.5,1.0,1.0,1.0], //みず
+	[1.0,1.0,2.0,0.5,0.5,1.0,1.0,1.0,0.0,2.0,1.0,1.0,1.0,1.0,0.5,1.0,1.0,1.0], //でん
+	[1.0,0.5,2.0,1.0,0.5,1.0,1.0,0.5,2.0,0.5,1.0,0.5,2.0,1.0,0.5,1.0,0.5,1.0], //くさ
+	[1.0,0.5,0.5,1.0,2.0,0.5,1.0,1.0,2.0,2.0,1.0,1.0,1.0,1.0,2.0,1.0,0.5,1.0], //こお
+	[2.0,1.0,1.0,1.0,1.0,2.0,1.0,0.5,1.0,0.5,0.5,0.5,2.0,0.0,1.0,2.0,2.0,0.5], //かく
+	[1.0,1.0,1.0,1.0,2.0,1.0,1.0,0.5,0.5,1.0,1.0,1.0,0.5,0.5,1.0,1.0,0.0,2.0], //どく
+	[1.0,2.0,1.0,2.0,0.5,1.0,1.0,2.0,1.0,0.0,1.0,0.5,2.0,1.0,1.0,1.0,2.0,1.0], //じめ
+	[1.0,1.0,1.0,0.5,2.0,1.0,2.0,1.0,1.0,1.0,1.0,2.0,0.5,1.0,1.0,1.0,0.5,1.0], //ひこ
+	[1.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,1.0,1.0,0.5,1.0,1.0,1.0,1.0,0.0,0.5,1.0], //エス
+	[1.0,0.5,1.0,1.0,2.0,1.0,0.5,0.5,1.0,0.5,2.0,1.0,1.0,0.5,1.0,2.0,0.5,0.5], //むし
+	[1.0,2.0,1.0,1.0,1.0,2.0,0.5,1.0,0.5,2.0,1.0,2.0,1.0,1.0,1.0,1.0,2.0,1.0], //いわ
+	[0.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,1.0,1.0,2.0,1.0,0.5,1.0,1.0], //ゴー
+	[1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,1.0,0.5,0.0], //ドラ
+	[1.0,1.0,1.0,1.0,1.0,1.0,0.5,1.0,1.0,1.0,2.0,1.0,1.0,2.0,1.0,0.5,1.0,0.5], //あく
+	[1.0,0.5,0.5,0.5,1.0,2.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,1.0,1.0,1.0,0.5,2.0], //はが
+	[1.0,0.5,1.0,1.0,1.0,1.0,2.0,0.5,1.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,0.5,1.0], //フェ
+];
+function init()
+{
+	push(0);
+	
+	for(i=0; i<btns.length; i++)
+	{
+		btns[i] = document.getElementById('t' + i);
+	}
+	
+	for(i=0; i<icon_from.length; i++)
+	{
+		icon_from[i] = document.getElementById('from' + i);
+		icon_k_from[i] = document.getElementById('from_k' + i);
+	}
+	
+	for(i=0; i<icon_to.length; i++)
+	{
+		icon_to[i] = document.getElementById('to' + i);
+		icon_k_to[i] = document.getElementById('to_k' + i);
+	}
+	
+	draw();
+}
+function setstyle(icon, val)
+{
+	icon.style.display='';
+	icon.style.borderStyle = 'solid';
+	icon.style.borderWidth = 5;
+	icon.style.opacity=1;
+	icon.style.backgroundColor='#00000000';
+//	if (val > 1.0)
+//	{
+//		icon.style.backgroundColor='#ff0000ff';
+//		icon.style.opacity=0.3;
+//	}
+	if (val == 0.0)
+	{
+		icon.style.borderColor='#000000';
+	}
+	else if (val == 0.5)
+	{
+		icon.style.borderColor='#a0a0a0';
+	}
+	else if (val == 2.0)
+	{
+		icon.style.borderColor='#00F0F0';
+	}
+	else if (val == 4.0)
+	{
+		icon.style.borderColor='#FF0000';
+	}
+	else
+	{
+		icon.style.borderColor='#00000000';
+		icon.style.opacity=0.3;
+	}
+}
+function draw()
+{
+	console.log(queue);
+	for(i=0; i<btns.length; i++)
+	{
+		btns[i].style.opacity = chk(i) ? 1.0 : 0.5;
+	}
+	
+	var val=[1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0];
+	for(i=0; i<queue.length; i++)
+	{
+		for(j=0;j<aisho[queue[i]].length;j++)
+		{
+			val[j] = val[j] * aisho[j][queue[i]];
+		}
+	}
+	for(i=0; i<icon_from.length; i++)
+	{
+		setstyle(icon_from[i], val[i]);
+		icon_k_from[i].src = './k' + val[i]*10 + '.png';
+	}
+	
+	val=[1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0];
+	for(i=0; i<queue.length; i++)
+	{
+		for(j=0;j<aisho[queue[i]].length;j++)
+		{
+			val[j] = val[j] * aisho[queue[i]][j];
+		}
+	}
+	for(i=0; i<icon_to.length; i++)
+	{
+		setstyle(icon_to[i], val[i]);
+		icon_k_to[i].src = './k' + val[i]*10 + '.png';
+	}
+}
+function push(i)
+{
+	if (queue.length >= 2) queue.shift();
+	queue.push(i);
+}
+function pop(i)
+{
+	var k = queue.indexOf(i);
+	queue.splice(k, 1);
+}
+function chk(i)
+{
+	var k = queue.indexOf(i);
+	console.log(k)
+	return k>=0;
+}
+function c(btn, i)
+{
+	if (chk(i))
+	{
+		pop(i);
+	}
+	else
+	{
+		push(i);
+	}
+	draw();
+}
+</script>
+</head>
+<body onload="init()" >
+<div>
+<div class="left_block">
+<img id="from0"  src="./t00.png" /><img id="from_k0"  src="./k40.png" /><br/>
+<img id="from1"  src="./t01.png" /><img id="from_k1"  src="./k40.png" /><br/>
+<img id="from2"  src="./t02.png" /><img id="from_k2"  src="./k40.png" /><br/>
+<img id="from3"  src="./t03.png" /><img id="from_k3"  src="./k40.png" /><br/>
+<img id="from4"  src="./t04.png" /><img id="from_k4"  src="./k40.png" /><br/>
+<img id="from5"  src="./t05.png" /><img id="from_k5"  src="./k40.png" /><br/>
+<img id="from6"  src="./t06.png" /><img id="from_k6"  src="./k40.png" /><br/>
+<img id="from7"  src="./t07.png" /><img id="from_k7"  src="./k40.png" /><br/>
+<img id="from8"  src="./t08.png" /><img id="from_k8"  src="./k40.png" /><br/>
+<img id="from9"  src="./t09.png" /><img id="from_k9"  src="./k40.png" /><br/>
+<img id="from10" src="./t10.png" /><img id="from_k10" src="./k40.png" /><br/>
+<img id="from11" src="./t11.png" /><img id="from_k11" src="./k40.png" /><br/>
+<img id="from12" src="./t12.png" /><img id="from_k12" src="./k40.png" /><br/>
+<img id="from13" src="./t13.png" /><img id="from_k13" src="./k40.png" /><br/>
+<img id="from14" src="./t14.png" /><img id="from_k14" src="./k40.png" /><br/>
+<img id="from15" src="./t15.png" /><img id="from_k15" src="./k40.png" /><br/>
+<img id="from16" src="./t16.png" /><img id="from_k16" src="./k40.png" /><br/>
+<img id="from17" src="./t17.png" /><img id="from_k17" src="./k40.png" /><br/>
+</div>
+
+<div class="center_block">
+<img id="t0"  src="./t00.png" onclick="c(this, 0)" /><br/>
+<img id="t1"  src="./t01.png" onclick="c(this, 1)" /><br/>
+<img id="t2"  src="./t02.png" onclick="c(this, 2)" /><br/>
+<img id="t3"  src="./t03.png" onclick="c(this, 3)" /><br/>
+<img id="t4"  src="./t04.png" onclick="c(this, 4)" /><br/>
+<img id="t5"  src="./t05.png" onclick="c(this, 5)" /><br/>
+<img id="t6"  src="./t06.png" onclick="c(this, 6)" /><br/>
+<img id="t7"  src="./t07.png" onclick="c(this, 7)" /><br/>
+<img id="t8"  src="./t08.png" onclick="c(this, 8)" /><br/>
+<img id="t9"  src="./t09.png" onclick="c(this, 9)" /><br/>
+<img id="t10" src="./t10.png" onclick="c(this,10)" /><br/>
+<img id="t11" src="./t11.png" onclick="c(this,11)" /><br/>
+<img id="t12" src="./t12.png" onclick="c(this,12)" /><br/>
+<img id="t13" src="./t13.png" onclick="c(this,13)" /><br/>
+<img id="t14" src="./t14.png" onclick="c(this,14)" /><br/>
+<img id="t15" src="./t15.png" onclick="c(this,15)" /><br/>
+<img id="t16" src="./t16.png" onclick="c(this,16)" /><br/>
+<img id="t17" src="./t17.png" onclick="c(this,17)" /><br/>
+</div>
+
+<div class="right_block">
+<img id="to0"  src="./t00.png" /><img id="to_k0"  src="./k40.png" /><br/>
+<img id="to1"  src="./t01.png" /><img id="to_k1"  src="./k40.png" /><br/>
+<img id="to2"  src="./t02.png" /><img id="to_k2"  src="./k40.png" /><br/>
+<img id="to3"  src="./t03.png" /><img id="to_k3"  src="./k40.png" /><br/>
+<img id="to4"  src="./t04.png" /><img id="to_k4"  src="./k40.png" /><br/>
+<img id="to5"  src="./t05.png" /><img id="to_k5"  src="./k40.png" /><br/>
+<img id="to6"  src="./t06.png" /><img id="to_k6"  src="./k40.png" /><br/>
+<img id="to7"  src="./t07.png" /><img id="to_k7"  src="./k40.png" /><br/>
+<img id="to8"  src="./t08.png" /><img id="to_k8"  src="./k40.png" /><br/>
+<img id="to9"  src="./t09.png" /><img id="to_k9"  src="./k40.png" /><br/>
+<img id="to10" src="./t10.png" /><img id="to_k10" src="./k40.png" /><br/>
+<img id="to11" src="./t11.png" /><img id="to_k11" src="./k40.png" /><br/>
+<img id="to12" src="./t12.png" /><img id="to_k12" src="./k40.png" /><br/>
+<img id="to13" src="./t13.png" /><img id="to_k13" src="./k40.png" /><br/>
+<img id="to14" src="./t14.png" /><img id="to_k14" src="./k40.png" /><br/>
+<img id="to15" src="./t15.png" /><img id="to_k15" src="./k40.png" /><br/>
+<img id="to16" src="./t16.png" /><img id="to_k16" src="./k40.png" /><br/>
+<img id="to17" src="./t17.png" /><img id="to_k17" src="./k40.png" /><br/>
+</div>
+</div>
+</body>
+</html>
